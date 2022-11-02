@@ -1,28 +1,31 @@
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
 import { FilterTitle, FilterInput } from "./Filter.styled";
-import { useSelector, useDispatch } from 'react-redux';
-import { setFilter } from '../../redux/filterSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilterValue } from '../../redux/filterSlice';
+import { selectFilterValue } from 'redux/selectors';
 
-const Filter = () => {
+  const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.filter);
-  
-  const handleChange = (event) => {
-    dispatch(setFilter(event.target.value));
-  }
-  const filterId = nanoid();
+  const filter = useSelector(selectFilterValue);
 
-   return (<div>
-    <FilterTitle htmlFor={filterId}>Find contacts by name</FilterTitle>
-    <FilterInput
-      id={filterId}
-      type="text"
-      name="filter"
-      value={filter}
-      onChange={handleChange}
-      required
+  const filterInputHandler = event => {
+    const inputValue = event.target.value;
+    dispatch(setFilterValue(inputValue));
+    };
+  
+    return (
+    <div>
+      <FilterTitle>Find contacts by name</FilterTitle>
+      <FilterInput
+        type="text"
+        name="filter"
+        value={filter}
+        onChange={filterInputHandler}
+        title="Search field"
+        required
       />
-  </div>);
+    </div>
+  );
 };
 
 export default Filter;

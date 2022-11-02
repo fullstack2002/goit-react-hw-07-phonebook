@@ -1,27 +1,30 @@
-import { useSelector } from 'react-redux';
-import { getContacts } from '../../redux/contactsSlice';
-import { getFilter } from '../../redux/filterSlice';
-import ContactListItem from "components/ContactListItem/ContactListItem";
+import { selectContactsByName, selectLoadingStatus } from 'redux/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { ContactListButton } from './ContactList.styled';
+import { deleteContact } from 'redux/operations';
+import Loader from '../Loader/Loader';
 
 const ContactList = () => {
-    const contacts = useSelector(getContacts);
-    const filter = useSelector(getFilter);
-
-    const getFilteredContacts = () => {
-        if (!filter) {
-            return contacts;
-        }
-        
-        return contacts.filter(({name}) => name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))
-    }
-
-    const contactsRendering = getFilteredContacts()
-
-    return <ul>
-        {contactsRendering.map(item =>
-            <ContactListItem key={item.id} data={item} />)
-        }
-    </ul>
-}
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContactsByName);
+  const isLoading = useSelector(selectLoadingStatus);
+    
+    return (
+      <div>
+        <ul>
+        {isLoading && <Loader />}
+        {contacts.map(({ id, name, phone }) => (
+            <li key={id}>
+            <p>Name: {name}</p>
+            <p>Number: {phone}</p>
+            <ContactListButton type='button' onClick={() => {
+              dispatch(deleteContact(id));
+            }}>Delete contact</ContactListButton>
+            </li>
+        ))}
+        </ul>
+        </div>
+    );
+};
 
 export default ContactList;
