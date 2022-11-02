@@ -2,7 +2,8 @@ import { FallingLines } from 'react-loader-spinner';
 import { LoaderWrapper } from './Loader.styled';
 
 const Loader = () => {
-  return <LoaderWrapper>
+  return (
+    <LoaderWrapper>
     <FallingLines
       color="#ae62e1"
       width="100"
@@ -10,6 +11,7 @@ const Loader = () => {
       ariaLabel='falling-lines-loading'
     />
   </LoaderWrapper>
+  )
 };
 
 export default Loader;

@@ -1,4 +1,3 @@
-// import { nanoid } from "nanoid";
 import { FilterTitle, FilterInput } from "./Filter.styled";
 import { useDispatch, useSelector } from 'react-redux';
 import { setFilterValue } from '../../redux/filterSlice';
